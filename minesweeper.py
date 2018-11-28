@@ -76,70 +76,75 @@ def chunks(l, n):
         yield l[i:i + n]
 
 
-size = int(input('Enter size of field: '))
+def main():
+    size = int(input('Enter size of field: '))
 
-# 1/10th of cells will be mines.
-mines = (size**2)//size
-
-try:
-    mines = int(input('Enter number of mines [default=%s]: ' % mines))
-except:
+    # 1/10th of cells will be mines.
     mines = (size**2)//size
 
-# Make an one dimensional list of size square.
-field_1d = [' ']*(size**2)
+    try:
+        mines = int(input('Enter number of mines [default=%s]: ' % mines))
+    except:
+        mines = (size**2)//size
 
-# Stick the mines into the list.
-for m in range(mines):
-    field_1d[m] = '*'
+    # Make an one dimensional list of size square.
+    field_1d = [' ']*(size**2)
 
-# Randomly place the mines.
-random.shuffle(field_1d)
+    # Stick the mines into the list.
+    for m in range(mines):
+        field_1d[m] = '*'
 
-# Make a 2D list out of the 1D list.
-field = [r for r in chunks(field_1d,size)]
+    # Randomly place the mines.
+    random.shuffle(field_1d)
 
-# Display it.
-for row in field:
-    print(row)
+    # Make a 2D list out of the 1D list.
+    field = [r for r in chunks(field_1d,size)]
 
-board_1d = []
-for i in range(size):
-    for j in range(size):
-        board_1d.append(Cell(i,j,field))
+    # Display it.
+    for row in field:
+        print(row)
 
-board = [r for r in chunks(board_1d,size)]
-def display(board):
+    board_1d = []
     for i in range(size):
         for j in range(size):
-            print(board[i][j].display(), end='|')
-        print("")
+            board_1d.append(Cell(i,j,field))
 
-def win(board):
-    unexposed = 0
-    for i in range(size):
-        for j in range(size):
-            if board[i][j].exposed == False:
-                unexposed += 1
+    board = [r for r in chunks(board_1d,size)]
+    def display(board):
+        for i in range(size):
+            for j in range(size):
+                print(board[i][j].display(), end='|')
+            print("")
 
-    if unexposed == mines:
-        print('WINNER!!!!')
-        return True
+    def win(board):
+        unexposed = 0
+        for i in range(size):
+            for j in range(size):
+                if board[i][j].exposed == False:
+                    unexposed += 1
 
-    return False
-           
-gameover = False
+        if unexposed == mines:
+            print('WINNER!!!!')
+            return True
 
-while not gameover:
+        return False
+
+    gameover = False
+
+    while not gameover:
+        display(board)
+        I = int(input('Enter I: '))
+        J = int(input('Enter J: '))
+        c = board[I][J]
+        c.expose()
+        if c.value == '*':
+           print("BOOM!")
+           gameover = True
+        else:
+           gameover = win(board)
+
     display(board)
-    I = int(input('Enter I: '))
-    J = int(input('Enter J: '))
-    c = board[I][J]
-    c.expose()
-    if c.value == '*':
-       print("BOOM!")
-       gameover = True
-    else:
-       gameover = win(board)
 
-display(board)
+
+if __name__ == '__main__':
+    main()
