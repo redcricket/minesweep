@@ -106,7 +106,6 @@ for row in field:
 board_1d = []
 for i in range(size):
     for j in range(size):
-        print(i,j)
         board_1d.append(Cell(i,j,field))
 
 board = [r for r in chunks(board_1d,size)]
@@ -140,6 +139,7 @@ while not gameover:
     if c.value == '*':
        print("BOOM!")
        gameover = True
-    gameover = win(board)
+    else:
+       gameover = win(board)
 
 display(board)
