@@ -139,8 +139,8 @@ def main():
 
     while not gameover:
         display(board)
-        I = int(input('Enter I: '))
-        J = int(input('Enter J: '))
+        J = int(input('Enter I: '))
+        I = int(input('Enter J: '))
         c = board[I][J]
         print("I=%d J=%d c(i,j) -> (%d,%d)" % (I,J,c.i,c.j))
         c.expose()
