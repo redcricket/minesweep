@@ -28,22 +28,22 @@ class Cell():
             return '*' 
         v=0
         try:
-            if f[i-1][j-1] == '*':
+            if f[i-1][j-1] == '*' and i != 0 and j != 0:
                 v += 1
         except:
             pass
         try:
-            if f[i-1][j] == '*':
+            if f[i-1][j] == '*' and i != 0:
                 v += 1
         except:
             pass
         try:
-            if f[i-1][j+1] == '*':
+            if f[i-1][j+1] == '*' and i != 0:
                 v += 1
         except:
             pass
         try:
-            if f[i][j-1] == '*':
+            if f[i][j-1] == '*' and j != 0:
                 v += 1
         except:
             pass
@@ -53,7 +53,7 @@ class Cell():
         except:
             pass
         try:
-            if f[i+1][j-1] == '*':
+            if f[i+1][j-1] == '*' and j != 0:
                 v += 1
         except:
             pass
@@ -104,12 +104,18 @@ def main():
     for row in field:
         print(row)
 
+    for i in range(size):
+        for j in range(size):
+            print(field[i][j], end='|')
+        print("")
+
     board_1d = []
     for i in range(size):
         for j in range(size):
             board_1d.append(Cell(i,j,field))
 
     board = [r for r in chunks(board_1d,size)]
+
     def display(board):
         for i in range(size):
             for j in range(size):
@@ -136,6 +142,7 @@ def main():
         I = int(input('Enter I: '))
         J = int(input('Enter J: '))
         c = board[I][J]
+        print("I=%d J=%d c(i,j) -> (%d,%d)" % (I,J,c.i,c.j))
         c.expose()
         if c.value == '*':
            print("BOOM!")
