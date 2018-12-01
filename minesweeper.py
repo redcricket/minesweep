@@ -219,15 +219,11 @@ def main():
             try:
                 # I,J = [int(i) for i in input('Enter i,j: ').split(',')]
                 J,I = [int(i) for i in input('Enter i,j: ').split(',')]
-                print("%s,%s" % (I,J))
                 if size > I >= 0 and size > J >= 0:
                     asking = False
             except:
                 pass
         c = board[I][J]
-        print("I=%d J=%d c(i,j) -> (%d,%d)" % (I,J,c.i,c.j))
-        # also = [e for e in c.expose() if not board[e[0],e[1]].exposed()]
-        # c.expose(board)
         if c.value == '*':
            print("BOOM!")
            gameover = True
