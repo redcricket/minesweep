@@ -1,6 +1,7 @@
 #!/bin/env python3
 
 import random
+import time
 
 class Cell():
 
@@ -137,6 +138,10 @@ def chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]
 
+def expose_all(board):
+    for i in range(len(board[0])):
+        for j in range(len(board[0])):
+            board[i][j].exposed = True
 
 def main():
     size = int(input('Enter size of field: '))
@@ -227,6 +232,9 @@ def main():
            print("BOOM!")
            gameover = True
            c.exposed = True
+           display(board)
+           time.sleep(3)
+           expose_all(board)
         else:
            c.expose(board)
            gameover = win(board)
