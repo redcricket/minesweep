@@ -138,10 +138,23 @@ def chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]
 
+
 def expose_all(board):
     for i in range(len(board[0])):
         for j in range(len(board[0])):
             board[i][j].exposed = True
+
+
+def cheat(b):
+    size = len(b[0])
+    for i in range(size):
+        for j in range(size):
+            if b[i][j].value == '*':
+                print('*', end='|')
+            else:
+                print(' ', end='|')
+        print("")
+
 
 def main():
     size = int(input('Enter size of field: '))
@@ -166,15 +179,6 @@ def main():
 
     # Make a 2D list out of the 1D list.
     field = [r for r in chunks(field_1d,size)]
-
-    # Display it.
-    for row in field:
-        print(row)
-
-    for i in range(size):
-        for j in range(size):
-            print(field[i][j], end='|')
-        print("")
 
     board_1d = []
     for i in range(size):
@@ -212,16 +216,15 @@ def main():
 
     while not gameover:
         display(board)
-        # J = int(input('Enter I: '))
-        # I = int(input('Enter J: '))
         asking = True
         while asking:
             try:
-                # I,J = [int(i) for i in input('Enter i,j: ').split(',')]
                 J,I = [int(i) for i in input('Enter i,j: ').split(',')]
                 if size > I >= 0 and size > J >= 0:
                     asking = False
-            except:
+            except Exception as ex:
+                if ex.args[0] == "invalid literal for int() with base 10: 'c'":
+                    cheat(board)
                 pass
         c = board[I][J]
         if c.value == '*':
