@@ -56,9 +56,9 @@ class Cell():
                     board[i][j-1].exposed = True
             if j < size-1:
                 v = int(self.calc_value(i, j+1))
-                if v == 0 and board[i][j+1].exposed:
+                if v == 0 and not board[i][j+1].exposed:
                     board[i][j+1].expose(board)
-                if v > 0 and board[i][j+1].exposed:
+                if v > 0 and not board[i][j+1].exposed:
                     board[i][j+1].exposed = True
 
             if i < size-1 and j > 0:
@@ -89,7 +89,7 @@ class Cell():
                 return '*'
         except:
             pass
-        v=0
+        v = 0
         try:
             if f[i-1][j-1] == '*' and i != 0 and j != 0:
                 v += 1
@@ -187,7 +187,7 @@ def main():
         for i in range(size):
             if i == 0:
                 for ii in range(size):
-                    print(ii%10, end='|')
+                    print(ii%10, end=' ')
                 print("")
             for j in range(size):
                 print(board[i][j].display(), end='|')
@@ -234,6 +234,7 @@ def main():
            c.exposed = True
            display(board)
            time.sleep(3)
+           print('')
            expose_all(board)
         else:
            c.expose(board)
