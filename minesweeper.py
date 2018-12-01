@@ -9,23 +9,85 @@ class Cell():
         self.j = j
         self.exposed = False
         self.field = field
-        self.value = self.calc_value()
+        self.size = len(field[0])
+        self.value = self.calc_value(self.i, self.j)
 
     def display(self):
         if self.exposed:
             return self.value
         return '_'
 
-    def expose(self):
+    def safe_expose(self):
         self.exposed = True
+        return []
 
-    def calc_value(self):
+    def expose(self,board):
+        ''' this method needs to return a list of other 0 cells. '''
         i = self.i
         j = self.j
+        size = self.size
+        self.exposed = True
+        if int(self.value) == 0:
+            if i > 0 and j > 0:
+                v = int(self.calc_value(i-1, j-1))
+                if v == 0 and not board[i-1][j-1].exposed:
+                    board[i-1][j-1].expose(board)
+                if v > 0 and not board[i-1][j-1].exposed:
+                    board[i-1][j-1].exposed = True
+            if i > 0:
+                v = int(self.calc_value(i-1, j))
+                if v == 0 and not board[i-1][j].exposed:
+                    board[i-1][j].expose(board)
+                if v > 0 and not board[i-1][j].exposed:
+                    board[i-1][j].exposed = True
+            if i > 0 and j < size-1:
+                v = int(self.calc_value(self.i-1, self.j + 1))
+                if v == 0 and not board[i-1][j+1].exposed:
+                    board[i-1][j+1].expose(board)
+                if v > 0 and not board[i-1][j+1].exposed:
+                    board[i-1][j+1].exposed = True
+
+            if j > 0:
+                v = int(self.calc_value(i,j-1))
+                if v == 0 and not board[i][j-1].exposed:
+                    board[i][j-1].expose(board)
+                if v > 0 and not board[i][j-1].exposed:
+                    board[i][j-1].exposed = True
+            if j < size-1:
+                v = int(self.calc_value(i, j+1))
+                if v == 0 and board[i][j+1].exposed:
+                    board[i][j+1].expose(board)
+                if v > 0 and board[i][j+1].exposed:
+                    board[i][j+1].exposed = True
+
+            if i < size-1 and j > 0:
+                v = int(self.calc_value(i+1, j-1))
+                if v == 0 and not board[i+1][j-1].exposed:
+                    board[i+1][j-1].expose(board)
+                if v > 0 and not board[i+1][j-1].exposed:
+                    board[i+1][j-1].exposed = True
+            if i < size-1:
+                v = int(self.calc_value(i+1, j))
+                if v == 0 and not board[i+1][j].exposed:
+                    board[i+1][j].expose(board)
+                if v > 0 and not board[i+1][j].exposed:
+                    board[i+1][j].exposed = True
+            if i < size-1 and j < size-1:
+                v = int(self.calc_value(self.i+1, self.j + 1))
+                if v == 0 and not board[i+1][j+1].exposed:
+                    board[i+1][j+1].expose(board)
+                if v > 0 and not board[i+1][j+1].exposed:
+                    board[i+1][j+1].exposed = True
+
+
+    def calc_value(self,i,j):
         f = self.field
 
-        if self.field[i][j] == '*':
-            return '*' 
+        try:
+            if self.field[i][j] == '*':
+                return '*'
+        except:
+            pass
         v=0
         try:
             if f[i-1][j-1] == '*' and i != 0 and j != 0:
@@ -139,15 +201,27 @@ def main():
 
     while not gameover:
         display(board)
-        J = int(input('Enter I: '))
-        I = int(input('Enter J: '))
+        # J = int(input('Enter I: '))
+        # I = int(input('Enter J: '))
+        asking = True
+        while asking:
+            try:
+                # I,J = [int(i) for i in input('Enter i,j: ').split(',')]
+                J,I = [int(i) for i in input('Enter i,j: ').split(',')]
+                print("%s,%s" % (I,J))
+                if size > I >= 0 and size > J >= 0:
+                    asking = False
+            except:
+                pass
         c = board[I][J]
         print("I=%d J=%d c(i,j) -> (%d,%d)" % (I,J,c.i,c.j))
-        c.expose()
+        # also = [e for e in c.expose() if not board[e[0],e[1]].exposed()]
+        # c.expose(board)
         if c.value == '*':
            print("BOOM!")
            gameover = True
         else:
+           c.expose(board)
            gameover = win(board)
 
     display(board)
