@@ -15,6 +15,8 @@ class Cell():
 
     def display(self):
         if self.exposed:
+            if self.value == '0':
+                return ' '
             return self.value
         return '_'
 
