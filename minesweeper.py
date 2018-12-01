@@ -41,7 +41,7 @@ class Cell():
                 if v > 0 and not board[i-1][j].exposed:
                     board[i-1][j].exposed = True
             if i > 0 and j < size-1:
-                v = int(self.calc_value(self.i-1, self.j + 1))
+                v = int(self.calc_value(i-1, j+1))
                 if v == 0 and not board[i-1][j+1].exposed:
                     board[i-1][j+1].expose(board)
                 if v > 0 and not board[i-1][j+1].exposed:
@@ -73,7 +73,7 @@ class Cell():
                 if v > 0 and not board[i+1][j].exposed:
                     board[i+1][j].exposed = True
             if i < size-1 and j < size-1:
-                v = int(self.calc_value(self.i+1, self.j + 1))
+                v = int(self.calc_value(i+1, j+1))
                 if v == 0 and not board[i+1][j+1].exposed:
                     board[i+1][j+1].expose(board)
                 if v > 0 and not board[i+1][j+1].exposed:
@@ -180,8 +180,14 @@ def main():
 
     def display(board):
         for i in range(size):
+            if i == 0:
+                for ii in range(size):
+                    print(ii%10, end='|')
+                print("")
             for j in range(size):
                 print(board[i][j].display(), end='|')
+                if j == size-1:
+                    print(" %s" % (i%size), end='')
             print("")
 
     def win(board):
@@ -220,6 +226,7 @@ def main():
         if c.value == '*':
            print("BOOM!")
            gameover = True
+           c.exposed = True
         else:
            c.expose(board)
            gameover = win(board)
