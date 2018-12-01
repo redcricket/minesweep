@@ -18,12 +18,7 @@ class Cell():
             return self.value
         return '_'
 
-    def safe_expose(self):
-        self.exposed = True
-        return []
-
     def expose(self,board):
-        ''' this method needs to return a list of other 0 cells. '''
         i = self.i
         j = self.j
         size = self.size
