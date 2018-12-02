@@ -210,6 +210,7 @@ def main():
             print(ii%10, end=' ')
         print("")
 
+
     def win(board):
         unexposed = 0
         for i in range(size):
