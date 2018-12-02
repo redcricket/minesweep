@@ -18,6 +18,11 @@ class Cell():
             if self.value == '0':
                 return ' '
             return self.value
+        # return "\u233B"
+        # return "\u220E"
+        # return "\u058E"
+        # You can get the funny charaters here:
+        # http://www.fileformat.info/info/charset/UTF-16/list.htm?start=1024
         return '_'
 
     def expose(self,board):
@@ -188,13 +193,22 @@ def main():
         for i in range(size):
             if i == 0:
                 for ii in range(size):
+                    if ii == 0:
+                        print (" ", end=' ')
                     print(ii%10, end=' ')
                 print("")
             for j in range(size):
+                if j == 0:
+                    print("%s " % (i%10), end='')
                 print(board[i][j].display(), end='|')
                 if j == size-1:
                     print(" %s" % (i%size), end='')
             print("")
+        for ii in range(size):
+            if ii == 0:
+                print (" ", end=' ')
+            print(ii%10, end=' ')
+        print("")
 
     def win(board):
         unexposed = 0
