@@ -18,9 +18,6 @@ class Cell():
             if self.value == '0':
                 return ' '
             return self.value
-        # return "\u233B"
-        # return "\u220E"
-        # return "\u058E"
         # You can get the funny charaters here:
         # http://www.fileformat.info/info/charset/UTF-16/list.htm?start=1024
         return '_'
