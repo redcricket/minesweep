@@ -202,6 +202,7 @@ def main():
         mines = int(input('Enter number of mines [default=%s]: ' % mines))
     except:
         mines = (size ** 2) // size
+        pass
 
     # Make an one dimensional list of size square.
     field_1d = [' '] * (size ** 2)
@@ -216,17 +217,19 @@ def main():
     # Make a 2D list out of the 1D list.
     field = [r for r in chunks(field_1d, size)]
 
-    board_1d = []
-    for i in range(size):
-        for j in range(size):
-            board_1d.append(Cell(i, j, field))
-
-    board = [r for r in chunks(board_1d, size)]
+    # board_1d = []
+    # for i in range(size):
+    #    for j in range(size):
+    #        board_1d.append(Cell(i, j, field))
+    # board_1d = [Cell(i, j, field) for i in range(size) for j in range(size)]
+    # board = [r for r in chunks(board_1d, size)]
+    board = [r for r in chunks([Cell(i, j, field) for i in range(size) for j in range(size)], size)]
     game_over = False
 
     while not game_over:
         display(board)
         asking = True
+        i = j = 0
         while asking:
             try:
                 j, i = [int(i) for i in input('Enter i,j: ').split(',')]
