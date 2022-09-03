@@ -232,7 +232,7 @@ def main():
         i = j = 0
         while asking:
             try:
-                j, i = [int(i) for i in input('Enter i,j: ').split(',')]
+                i, j = [int(i) for i in input('Enter row,col: ').split(',')]
                 if size > i >= 0 and size > j >= 0:
                     asking = False
             except Exception as ex:
